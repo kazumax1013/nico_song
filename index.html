@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ダンススクール ニコソング | 大阪・大正・豊中・蛍池</title>
+
+    <!-- Tailwind CSS CDN -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* --- デザイン設定 --- */
+
+        :root {
+
+            --bg-color: #050505;
+
+            --text-color: #ffffff;
+
+            --accent-color: #FF6600; /* ネオンオレンジ */
+
+            --accent-gradient: linear-gradient(135deg, #FF8C00 0%, #FF2200 100%);
+
+        }
+
+
+
+        body {
+
+            font-family: 'Noto Sans JP', sans-serif;
+
+            background-color: var(--bg-color);
+
+            color: var(--text-color);
+
+            line-height: 1.6;
+
+            overflow-x: hidden;
+
+            scroll-behavior: smooth;
+
+        }
+
+
+
+        /* --- フォント & テキスト --- */
+
+        .anton-font {
+
+            font-family: 'Anton', sans-serif;
+
+            letter-spacing: 0.05em;
+
+            text-transform: uppercase;
+
+        }
+
+
+
+        .text-accent {
+
+            color: var(--accent-color);
+
+            text-shadow: 0 0 15px rgba(255, 102, 0, 0.6);
+
+        }
+
+        
+
+        .bg-accent-gradient {
+
+            background: var(--accent-gradient);
+
+        }
+
+
+
+        /* --- 装飾 & エフェクト --- */
+
+        /* 背景の巨大文字 */
+
+        .bg-watermark {
+
+            position: absolute;
+
+            font-size: 20vw;
+
+            font-weight: 900;
+
+            color: rgba(255, 255, 255, 0.03);
+
+            white-space: nowrap;
+
+            z-index: 0;
+
+            pointer-events: none;
+
+            line-height: 1;
+
+            font-family: 'Anton', sans-serif;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform: translate(-50%, -50%) skewY(-10deg);
+
+        }
+
+
+
+        /* 斜めカットレイアウト */
+
+        .skew-section {
+
+            transform: skewY(-3deg);
+
+            transform-origin: top left;
+
+        }
+
+
+
+        /* アウトライン文字 */
+
+        .text-outline {
+
+            color: transparent;
+
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
+
+        }
+
+        .text-outline-accent {
+
+            color: transparent;
+
+            -webkit-text-stroke: 1px var(--accent-color);
+
+        }
+
+
+
+        /* カードデザイン */
+
+        .street-card {
+
+            background: rgba(20, 20, 20, 0.8);
+
+            border: 1px solid rgba(255, 102, 0, 0.3);
+
+            position: relative;
+
+            overflow: hidden;
+
+            transition: transform 0.3s, box-shadow 0.3s;
+
+        }
+
+        .street-card:hover {
+
+            border-color: var(--accent-color);
+
+            box-shadow: 0 10px 30px rgba(255, 102, 0, 0.2);
+
+            transform: translateY(-5px);
+
+        }
+
+
+
+        /* スケジュールリスト装飾 */
+
+        .schedule-item {
+
+            border-left: 2px solid #333;
+
+            padding-left: 1rem;
+
+            margin-bottom: 1rem;
+
+            transition: border-color 0.3s;
+
+        }
+
+        .street-card:hover .schedule-item {
+
+            border-left-color: var(--accent-color);
+
+        }
+
+
+
+        /* --- アニメーション --- */
+
+        .fade-in-up {
+
+            opacity: 0;
+
+            transform: translateY(40px);
+
+            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+        }
+
+        .fade-in-visible {
+
+            opacity: 1;
+
+            transform: translateY(0);
+
+        }
+
+
+
+        @keyframes marquee {
+
+            0% { transform: translateX(0); }
+
+            100% { transform: translateX(-50%); }
+
+        }
+
+        .animate-marquee {
+
+            animation: marquee 30s linear infinite;
+
+        }
+
+
+
+        @keyframes drop {
+
+            0% { transform: translateY(-100%); }
+
+            100% { transform: translateY(100%); }
+
+        }
+
+
+
+        @keyframes spin-slow {
+
+            from { transform: rotate(0deg); }
+
+            to { transform: rotate(360deg); }
+
+        }
+
+
+
+        /* 画像ホバー */
+
+        .hover-scale-img {
+
+            transition: transform 0.5s ease;
+
+        }
+
+        .group:hover .hover-scale-img {
+
+            transform: scale(1.1);
+
+        }
+
+
+
+        /* 背景動画 */
+
+        .video-background {
+
+            position: absolute;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            opacity: 0.6;
+
+            filter: grayscale(80%) contrast(120%);
+
+        }
+
+        /* モバイル最適化: スマホでも動画を表示 */
+
+
+
+        /* モバイルメニュー */
+
+        #mobile-menu {
+
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+
+        }
+
+        #mobile-menu.hidden {
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            pointer-events: none;
+
+        }
+
+        #mobile-menu:not(.hidden) {
+
+            opacity: 1;
+
+            visibility: visible;
+
+            pointer-events: auto;
+
+        }
+
+        .mobile-link {
+
+            transition: color 0.2s ease;
+
+        }
+
+    </style>
+
+</head>
+
+<body class="antialiased selection:bg-orange-500 selection:text-white">
+
+
+
+    <!-- ヘッダー -->
+
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-[#FF6600]/95 backdrop-blur-md border-b border-white/10 shadow-lg">
+
+        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center relative z-50">
+
+            <!-- ロゴ -->
+
+            <a href="#" class="flex items-center group">
+
+                <img src="images/logo/logo.png" alt="NicoSong DANCE SCHOOL" class="h-14 md:h-16 object-contain group-hover:opacity-90 transition-opacity">
+
+            </a>
+
+            
+
+            <!-- ハンバーガーメニューボタン -->
+
+            <button id="menu-btn" class="text-white hover:text-black transition duration-300 sm:hidden focus:outline-none">
+
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path></svg>
+
+            </button>
+
+
+
+            <!-- PCナビゲーション -->
+
+            <nav class="hidden sm:flex space-x-8">
+
+                <a href="#about" class="anton-font text-lg text-white hover:text-black transition duration-300">ABOUT</a>
+
+                <a href="#schedule" class="anton-font text-lg text-white hover:text-black transition duration-300">SCHEDULE</a>
+
+                <a href="#price" class="anton-font text-lg text-white hover:text-black transition duration-300">PRICE</a>
+
+                <a href="#contact" class="px-6 py-2 bg-white text-[#FF6600] font-bold anton-font transform -skew-x-12 hover:skew-x-0 transition duration-300 hover:bg-black hover:text-white">JOIN US</a>
+
+            </nav>
+
+        </div>
+
+
+
+        <!-- モバイルメニューオーバーレイ -->
+
+        <div id="mobile-menu" class="hidden fixed inset-0 bg-[#FF6600] z-40 flex flex-col justify-center items-center text-center px-6">
+
+            <nav class="space-y-8">
+
+                <a href="#about" class="mobile-link block anton-font text-4xl text-white hover:text-black transition-colors">ABOUT</a>
+
+                <a href="#schedule" class="mobile-link block anton-font text-4xl text-white hover:text-black transition-colors">SCHEDULE</a>
+
+                <a href="#price" class="mobile-link block anton-font text-4xl text-white hover:text-black transition-colors">PRICE</a>
+
+                <a href="#contact" class="mobile-link block anton-font text-4xl text-black bg-white px-6 py-3 hover:bg-black hover:text-white transition-colors mt-4">JOIN US</a>
+
+            </nav>
+
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-white hover:text-black transition-colors p-2">
+
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+
+            </button>
+
+        </div>
+
+    </header>
+
+    
+
+    <main>
+
+        <!-- 1. HERO AREA -->
+
+        <section id="hero" class="h-screen relative flex items-center justify-center overflow-hidden">
+
+            <!-- 動画背景 -->
+
+            <video class="video-background" autoplay loop muted playsinline preload="metadata">
+
+                <source src="images/hero/マイビデオ.mp4" type="video/mp4">
+
+            </video>
+
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-black/50 to-black/30 z-10"></div>
+
+            
+
+            <div class="relative z-20 text-center px-4 w-full mt-10">
+
+                <div class="inline-block mb-4 animate-pulse">
+
+                    <span class="px-4 py-1 border border-accent text-accent text-xs font-bold tracking-widest bg-black/50 backdrop-blur">OSAKA / TAISHO & TOYONAKA</span>
+
+                </div>
+
+                
+
+                <h2 class="text-5xl sm:text-7xl md:text-8xl anton-font text-white mb-2 tracking-tighter fade-in-up" style="text-shadow: 4px 4px 0px #FF4500;">WELCOME TO</h2>
+
+                <h2 class="text-6xl sm:text-8xl md:text-9xl anton-font text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500 text-outline mb-6 tracking-tighter fade-in-up" style="transition-delay: 0.1s;">NICOSONG</h2>
+
+                
+
+                <p class="text-lg sm:text-xl font-bold text-white mb-8 tracking-wide bg-black/60 inline-block px-4 py-2 border-l-4 border-accent max-w-2xl leading-relaxed fade-in-up" style="transition-delay: 0.2s;">
+
+                    3歳のキッズ！初心者のキッズ！<br class="sm:hidden">レベルアップしたいキッズ！大集合！
+
+                </p>
+
+
+
+                <div class="mt-4 fade-in-up" style="transition-delay: 0.3s;">
+
+                    <a href="#contact" class="inline-block px-10 py-4 bg-accent-gradient text-black font-black text-xl anton-font tracking-wide transform hover:scale-105 transition duration-300 shadow-[0_0_30px_rgba(255,102,0,0.5)] clip-path-polygon">
+
+                        FREE TRIAL LESSON
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- スクロールインジケーター -->
+
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center">
+
+                <span class="anton-font text-xs tracking-widest mb-2 text-accent">SCROLL</span>
+
+                <div class="w-[1px] h-16 bg-white/30 overflow-hidden">
+
+                    <div class="w-full h-1/2 bg-accent animate-[drop_1.5s_infinite]"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- 2. NEWS Ticker -->
+
+        <div class="relative z-30 bg-accent-gradient transform -skew-y-2 py-3 border-y-4 border-black overflow-hidden shadow-lg">
+
+            <div class="flex whitespace-nowrap animate-marquee">
+
+                <span class="text-black font-black text-2xl anton-font mx-8">NEWS: 豊中・蛍池校 レギュラーレッスン開講中!!! <span class="text-white">///</span></span>
+
+                <span class="text-black font-black text-2xl anton-font mx-8">体験レッスン ¥500 受付中 <span class="text-white">///</span></span>
+
+                <span class="text-black font-black text-2xl anton-font mx-8">初心者のキッズ大歓迎 <span class="text-white">///</span></span>
+
+                <span class="text-black font-black text-2xl anton-font mx-8">NEWS: 豊中・蛍池校 レギュラーレッスン開講中!!! <span class="text-white">///</span></span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- 3. ABOUT -->
+
+        <section id="about" class="relative py-32 overflow-hidden">
+
+            <div class="absolute inset-0 skew-section bg-[#0a0a0a] border-t border-white/5"></div>
+
+            <div class="bg-watermark">CONCEPT</div>
+
+
+
+            <div class="max-w-6xl mx-auto px-6 relative z-10">
+
+                <div class="text-center mb-16 fade-in-up">
+
+                    <h2 class="text-5xl md:text-7xl anton-font text-white mb-4">ABOUT US</h2>
+
+                    <p class="text-accent font-bold tracking-[0.2em] mb-8">ダンスを通して、個性と未来を育む</p>
+
+                    <p class="text-gray-300 max-w-2xl mx-auto leading-loose">
+
+                        ダンスは文化の一つ。<br>
+
+                        当スクールではダンスを通して、自由に表現する楽しさ、挨拶や礼儀の大事さを学んでもらいます！
+
+                        型にハマらずに個性を大切にし、リズム感、運動能力、協調性も育んでいきます。
+
+                    </p>
+
+                </div>
+
+
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+
+                    <div class="fade-in-up street-card p-8 group">
+
+                        <div class="text-5xl anton-font text-outline-accent mb-4 group-hover:text-accent transition-colors">INDIVIDUALITY</div>
+
+                        <h3 class="text-xl font-black mb-2 text-white">個性を大切に</h3>
+
+                        <p class="text-sm text-gray-500">型にはまらず、子供たち一人ひとりの個性を最大限に引き出し、自己表現の楽しさを教えます。</p>
+
+                    </div>
+
+                    <div class="fade-in-up street-card p-8 group" style="transition-delay: 0.1s;">
+
+                        <div class="text-5xl anton-font text-outline-accent mb-4 group-hover:text-accent transition-colors">MANNERS</div>
+
+                        <h3 class="text-xl font-black mb-2 text-white">挨拶と礼儀</h3>
+
+                        <p class="text-sm text-gray-500">技術だけでなく、人との繋がりや礼儀を大切にする指導を徹底しています。</p>
+
+                    </div>
+
+                    <div class="fade-in-up street-card p-8 group" style="transition-delay: 0.2s;">
+
+                        <div class="text-5xl anton-font text-outline-accent mb-4 group-hover:text-accent transition-colors">BASICS</div>
+
+                        <h3 class="text-xl font-black mb-2 text-white">基礎から応用まで</h3>
+
+                        <p class="text-sm text-gray-500">ストリートダンスやジャズなど、様々なジャンルに対応できる基礎から応用ステップ、振り付けまで指導します。</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- 4. SCHEDULE & LOCATION -->
+
+        <section id="schedule" class="relative py-24 bg-[#0a0a0a] overflow-hidden">
+
+             <div class="absolute inset-0 transform skewY(2deg) bg-[#0f0f0f] border-y border-white/5 origin-bottom-right"></div>
+
+             
+
+             <div class="max-w-5xl mx-auto px-6 relative z-10">
+
+                <h2 class="text-5xl md:text-7xl anton-font text-white mb-12 text-center fade-in-up">SCHEDULE & LOCATION</h2>
+
+                
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                    <!-- 大正校 -->
+
+                    <div class="fade-in-up street-card group cursor-pointer accordion-trigger" data-target="taisho-content">
+
+                        <div class="p-6 bg-gradient-to-b from-[#1a1a1a] to-transparent border-b border-white/10 flex justify-between items-center">
+
+                            <div>
+
+                                <h3 class="text-3xl font-black text-white group-hover:text-accent transition-colors">OSAKA / TAISHO</h3>
+
+                                <p class="text-sm text-gray-400 mt-1">大正区三軒家東1-5-14 大正駅前美化センター</p>
+
+                            </div>
+
+                            <span class="accordion-icon text-3xl text-accent transform transition-transform duration-300">+</span>
+
+                        </div>
+
+                        <div id="taisho-content" class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+
+                            <div class="p-6">
+
+                                <div class="schedule-item">
+
+                                    <p class="text-accent font-bold text-sm">MONDAY (月)</p>
+
+                                    <p class="text-white font-bold">16:30 - 17:30 <span class="text-gray-400 font-normal text-sm">/ リトルキッズ (3歳〜)</span></p>
+
+                                    <p class="text-white font-bold">17:30 - 18:30 <span class="text-gray-400 font-normal text-sm">/ キッズ (小1〜)</span></p>
+
+                                    <p class="text-white font-bold">18:40 - 19:40 <span class="text-gray-400 font-normal text-sm">/ インター (初中級)</span></p>
+
+                                </div>
+
+                                <div class="schedule-item">
+
+                                    <p class="text-accent font-bold text-sm">THURSDAY (木)</p>
+
+                                    <p class="text-white font-bold">16:15 - 17:15 <span class="text-gray-400 font-normal text-sm">/ リトルキッズ</span></p>
+
+                                    <p class="text-white font-bold">17:30 - 18:30 <span class="text-gray-400 font-normal text-sm">/ キッズ</span></p>
+
+                                    <p class="text-white font-bold">18:40 - 19:40 <span class="text-gray-400 font-normal text-sm">/ インター</span></p>
+
+                                </div>
+
+                                <div class="schedule-item border-none mb-0">
+
+                                    <p class="text-accent font-bold text-sm">FRIDAY (金)</p>
+
+                                    <p class="text-white font-bold">20:00 - 21:00 <span class="text-gray-400 font-normal text-sm">/ オープンクラス (非会員OK)</span></p>
+
+                                </div>
+
+                                <div class="mt-6 pt-6 border-t border-white/10">
+
+                                    <p class="text-accent font-bold text-sm mb-3">📍 アクセス</p>
+
+                                    <div class="w-full h-48 rounded overflow-hidden border border-white/10">
+
+                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3280.5!2d135.480!3d34.680!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDQwJzQ4LjAiTiAxMzXCsDI4JzQ4LjAiRQ!5e0!3m2!1sja!2sjp!4v1234567890" width="100%" height="100%" style="border:0; filter: grayscale(50%) contrast(120%);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+                                    </div>
+
+                                    <p class="text-xs text-gray-400 mt-2">大正区三軒家東1-5-14 大正駅前美化センター</p>
+
+                                </div>
+
+                                <p class="text-xs text-center text-gray-500 mt-4">(タップして詳細を閉じる)</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- 蛍池校 -->
+
+                    <div class="fade-in-up street-card group cursor-pointer accordion-trigger" data-target="hotarugaike-content" style="transition-delay: 0.1s;">
+
+                        <div class="p-6 bg-gradient-to-b from-[#1a1a1a] to-transparent border-b border-white/10 relative flex justify-between items-center">
+
+                            <div>
+
+                                <h3 class="text-3xl font-black text-white group-hover:text-accent transition-colors">TOYONAKA / HOTARUGAIKE</h3>
+
+                                <p class="text-sm text-gray-400 mt-1">豊中市蛍池西町 1-11-12 スタジオ ハッピースポット</p>
+
+                            </div>
+
+                            <span class="accordion-icon text-3xl text-accent transform transition-transform duration-300">+</span>
+
+                            <span class="absolute top-4 right-12 bg-white text-black text-[10px] font-bold px-2 py-1 transform rotate-12">NEW!</span>
+
+                        </div>
+
+                        <div id="hotarugaike-content" class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+
+                            <div class="p-6">
+
+                                <div class="schedule-item border-none mb-0">
+
+                                    <p class="text-accent font-bold text-sm">WEDNESDAY (水)</p>
+
+                                    <p class="text-white font-bold">18:00 - 19:20 <span class="text-gray-400 font-normal text-sm">/ キッズクラス (小1〜)</span></p>
+
+                                    <p class="text-white font-bold mt-2">19:30 - 20:50 <span class="text-gray-400 font-normal text-sm">/ オープンクラス (非会員OK)</span></p>
+
+                                </div>
+
+                                <div class="mt-8 p-4 bg-white/5 rounded border border-white/10">
+
+                                    <p class="text-sm text-gray-300">
+
+                                        ★12月からレギュラーレッスン開講！<br>
+
+                                        まずは体験レッスンにお越しください。
+
+                                    </p>
+
+                                </div>
+
+                                <div class="mt-6 pt-6 border-t border-white/10">
+
+                                    <p class="text-accent font-bold text-sm mb-3">📍 アクセス</p>
+
+                                    <div class="w-full h-48 rounded overflow-hidden border border-white/10">
+
+                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3280.5!2d135.480!3d34.680!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDQwJzQ4LjAiTiAxMzVcsDI4JzQ4LjAiRQ!5e0!3m2!1sja!2sjp!4v1234567890" width="100%" height="100%" style="border:0; filter: grayscale(50%) contrast(120%);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+                                    </div>
+
+                                    <p class="text-xs text-gray-400 mt-2">豊中市蛍池西町 1-11-12 スタジオ ハッピースポット</p>
+
+                                </div>
+
+                                <p class="text-xs text-center text-gray-500 mt-4">(タップして詳細を閉じる)</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+             </div>
+
+        </section>
+
+
+
+        <!-- 5. PRICE -->
+
+        <section id="price" class="py-24 bg-[#050505] relative border-t border-white/10">
+
+            <div class="max-w-7xl mx-auto px-6 mb-12">
+
+                <h2 class="text-5xl md:text-7xl anton-font text-white mb-2 fade-in-up"><span class="text-accent">PRICE</span> LIST</h2>
+
+                <p class="text-gray-400 fade-in-up">入会金: ¥3,000</p>
+
+            </div>
+
+
+
+            <div class="overflow-x-auto pb-12 pl-6 md:pl-[max(1.5rem,calc((100vw-80rem)/2))]">
+
+                <div class="flex gap-6 w-max">
+
+                    <div class="fade-in-up w-80 bg-gradient-to-br from-[#1a1a1a] to-black border-2 border-accent p-8 relative transform hover:-translate-y-4 transition duration-300">
+
+                        <div class="absolute top-0 right-0 bg-accent text-black font-bold text-xs px-3 py-1">FIRST TIME</div>
+
+                        <h3 class="text-3xl anton-font text-white mb-2">TRIAL</h3>
+
+                        <p class="text-gray-400 text-sm mb-6">体験レッスン</p>
+
+                        <div class="text-5xl font-black text-white mb-2">¥500</div>
+
+                        <p class="text-xs text-gray-500 mb-8">お一人様一回限り</p>
+
+                        <ul class="space-y-3 mb-8 text-sm text-gray-300">
+
+                            <li class="flex items-center"><span class="text-accent mr-2">✓</span> 全クラス受講可能</li>
+
+                            <li class="flex items-center"><span class="text-accent mr-2">✓</span> レッスンの雰囲気を体感</li>
+
+                        </ul>
+
+                        <button class="w-full py-4 bg-accent text-black font-black anton-font hover:bg-white transition-colors" onclick="location.href='mailto:25nicosong@gmail.com'">BOOK NOW</button>
+
+                    </div>
+
+                    <div class="fade-in-up w-80 street-card p-8 transform hover:-translate-y-4 transition duration-300" style="transition-delay: 0.1s;">
+
+                        <h3 class="text-3xl anton-font text-white mb-2">MONTHLY</h3>
+
+                        <p class="text-gray-400 text-sm mb-6">月謝会員</p>
+
+                        <div class="text-5xl font-black text-white mb-2">¥5,000</div>
+
+                        <p class="text-xs text-gray-500 mb-8">月4回</p>
+
+                        <ul class="space-y-3 mb-8 text-sm text-gray-300">
+
+                            <li class="flex items-center"><span class="text-accent mr-2">✓</span> 基礎をしっかり習得</li>
+
+                            <li class="flex items-center"><span class="text-accent mr-2">✓</span> 姉妹・兄弟割引あり</li>
+
+                            <li class="text-xs text-gray-500 ml-5">(二人目以降 ¥1,000 OFF)</li>
+
+                        </ul>
+
+                    </div>
+
+                    <div class="fade-in-up w-80 street-card p-8 transform hover:-translate-y-4 transition duration-300" style="transition-delay: 0.2s;">
+
+                        <h3 class="text-3xl anton-font text-white mb-2">OPEN</h3>
+
+                        <p class="text-gray-400 text-sm mb-6">オープンクラス (1回)</p>
+
+                        <div class="text-4xl font-black text-white mb-2">¥1,500<span class="text-base font-normal">~</span></div>
+
+                        <p class="text-xs text-gray-500 mb-8">都度払い</p>
+
+                        <ul class="space-y-3 mb-8 text-sm text-gray-300">
+
+                            <li class="flex items-center"><span class="text-accent mr-2">✓</span> 会員: ¥1,500</li>
+
+                            <li class="flex items-center"><span class="text-accent mr-2">✓</span> 非会員: ¥2,000</li>
+
+                            <li class="flex items-center"><span class="text-accent mr-2">✓</span> 好きな時に受講可能</li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- 6. INSTRUCTOR -->
+
+        <section id="instructor" class="py-32 px-6 relative overflow-hidden">
+
+            <div class="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#1a0a0a] to-[#0a0a0a]"></div>
+
+            <div class="bg-watermark" style="left:70%; font-size:15vw; opacity: 0.05;">YAN</div>
+
+            <!-- 装飾的な背景要素 -->
+
+            <div class="absolute top-20 right-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl animate-pulse"></div>
+
+            <div class="absolute bottom-20 left-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+
+            <div class="max-w-6xl mx-auto relative z-10">
+
+                <div class="text-center mb-20 fade-in-up">
+
+                    <h2 class="text-6xl md:text-8xl anton-font text-white mb-4 tracking-tighter" style="text-shadow: 0 0 30px rgba(255,102,0,0.3);">
+
+                        <span class="text-outline-accent">INSTRUCTOR</span>
+
+                    </h2>
+
+                    <div class="w-24 h-1 bg-accent-gradient mx-auto"></div>
+
+                </div>
+
+                
+
+                <div class="grid md:grid-cols-2 gap-12 items-center fade-in-up">
+
+                    <!-- 左側: 画像エリア -->
+
+                    <div class="relative group">
+
+                        <!-- グロー効果 -->
+
+                        <div class="absolute -inset-4 bg-accent-gradient opacity-20 blur-2xl group-hover:opacity-30 transition-opacity duration-500 rounded-full"></div>
+
+                        
+
+                        <!-- メイン画像コンテナ -->
+
+                        <div class="relative">
+
+                            <!-- 外側の装飾リング -->
+
+                            <div class="absolute -inset-2 border-2 border-accent/30 rounded-full animate-spin-slow" style="animation: spin 20s linear infinite;"></div>
+
+                            <div class="absolute -inset-4 border border-accent/20 rounded-full animate-spin-slow" style="animation: spin 15s linear infinite reverse;"></div>
+
+                            
+
+                            <!-- 画像 -->
+
+                            <div class="relative w-80 h-80 md:w-96 md:h-96 mx-auto overflow-hidden rounded-full border-4 border-black ring-8 ring-accent/50 shadow-[0_0_50px_rgba(255,102,0,0.6)] transform group-hover:scale-105 transition-transform duration-500">
+
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
+
+                                <img src="images/instructor/3867aa_c178d69f118a4826bf246099679ccdf6~mv2.webp" alt="YAN" class="w-full h-full object-cover hover-scale-img">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- 右側: テキストエリア -->
+
+                    <div class="space-y-6 text-left md:text-left">
+
+                        <div class="inline-block">
+
+                            <h3 class="text-6xl md:text-7xl anton-font text-white mb-6 md:mb-8 tracking-tighter transform hover:scale-105 transition-transform inline-block" style="text-shadow: 0 0 20px rgba(255,102,0,0.4);">
+
+                                YAN
+
+                            </h3>
+
+                        </div>
+
+                        
+
+                        <div class="inline-flex items-center gap-3 px-4 py-2 bg-accent/20 border border-accent/50 rounded-full mt-2">
+
+                            <span class="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
+
+                            <p class="text-accent font-black tracking-widest text-sm md:text-base">REPRESENTATIVE / DANCER</p>
+
+                        </div>
+
+                        
+
+                        <div class="space-y-6 text-gray-300 leading-relaxed">
+
+                            <!-- 経歴セクション -->
+
+                            <div class="bg-black/40 p-6 rounded-lg border border-white/10">
+
+                                <h4 class="text-accent font-black text-lg mb-4 tracking-wider">〜経歴〜</h4>
+
+                                <div class="space-y-3 text-sm md:text-base">
+
+                                    <p>大正区生まれ大正区育ち。</p>
+
+                                    <p>１２歳から大正区でダンスを始め、ジャズ・ロック・ポップ・ヒップホップを学び、高校２年生からキッズダンスクラスなどダンスの指導を始める。</p>
+
+                                    <p>高校卒業後、単身でアメリカにダンス留学。</p>
+
+                                    <p>留学中、NYでDMCやAISHAのバックダンサーやその他ショーに出演</p>
+
+                                    <p>帰国後は大阪のテーマパークにてパフォーマーとしてショーやパレードに出演</p>
+
+                                    <p class="font-bold text-accent mt-4">DREAMS COME TRUE<br>〜史上最強の移動遊園地〜WONDERLAND</p>
+
+                                    <p class="font-bold text-accent">DREAMS COME TRUE<br>裏ワンダーランド</p>
+
+                                    <p>湘南乃風ツアー、夏フェスやその他数々の舞台などに出演</p>
+
+                                    <p>母校の高校ダンス部コーチとして高校でも指導を始める。</p>
+
+                                    <p>全国大会に出場、審査員特別賞受賞、オリックスバファローズオープニングセレモニーに出演</p>
+
+                                </div>
+
+                            </div>
+
+                            
+
+                            <!-- コメントセクション -->
+
+                            <div class="bg-accent/10 p-6 rounded-lg border-l-4 border-accent">
+
+                                <h4 class="text-accent font-black text-lg mb-4 tracking-wider">〜コメント〜</h4>
+
+                                <p class="text-base md:text-lg leading-relaxed">
+
+                                    同じ地元の子供達や、縁があって出逢えた人々にダンスを伝えていきたいとずっと思っていました。数々の経験を経て、ダンススクール・ニコソングを開講しました！笑顔と個性を大切に生徒一人一人としっかり向き合っていきます！
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        
+
+                        <div class="pt-6">
+
+                            <a href="https://instagram.com/25nicosong" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-accent-gradient text-black font-black anton-font text-lg tracking-wide transform hover:scale-105 hover:shadow-[0_0_30px_rgba(255,102,0,0.6)] transition-all duration-300">
+
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+
+                                <span>FOLLOW INSTAGRAM</span>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- 7. CONTACT -->
+
+        <section id="contact" class="py-24 bg-accent-gradient relative overflow-hidden">
+
+            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+
+            <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+
+                <h2 class="text-5xl md:text-8xl anton-font text-black mb-6 fade-in-up">READY TO DANCE?</h2>
+
+                <p class="text-black font-bold text-lg mb-12 fade-in-up">無料体験レッスンのお申し込み・お問い合わせ</p>
+
+                
+
+                <div class="flex flex-col md:flex-row justify-center gap-6 fade-in-up">
+
+                    <a href="mailto:25nicosong@gmail.com" class="px-8 py-5 bg-black text-white font-black anton-font text-xl hover:bg-white hover:text-black transition-all transform hover:-translate-y-1 shadow-xl">
+
+                        25NICOSONG@GMAIL.COM
+
+                    </a>
+
+                    <a href="tel:05071217256" class="px-8 py-5 bg-white text-black font-black anton-font text-xl hover:bg-black hover:text-white transition-all transform hover:-translate-y-1 shadow-xl">
+
+                        050-7121-7256
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+    </main>
+
+
+
+    <!-- フッター -->
+
+    <footer class="bg-[#050505] py-12 border-t border-white/10 text-center">
+
+        <h2 class="text-2xl anton-font text-gray-600 mb-4">NICOSONG DANCE SCHOOL</h2>
+
+        <p class="text-gray-500 text-xs tracking-widest">© ALL RIGHTS RESERVED.</p>
+
+    </footer>
+
+
+
+    <!-- スマホ用 スティッキーCTA -->
+
+    <div id="sticky-cta" class="fixed bottom-0 left-0 w-full z-50 p-4 sm:hidden flex gap-3 bg-black/90 backdrop-blur border-t-2 border-accent">
+
+        <a href="#contact" class="flex-1 bg-black border border-white/20 text-white font-bold py-3 text-center text-sm flex items-center justify-center gap-2">
+
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+
+            問合せ
+
+        </a>
+
+        <a href="#contact" class="flex-[2] bg-accent text-black font-black py-3 text-center text-lg shadow-[0_0_15px_rgba(255,102,0,0.5)] animate-pulse">
+
+            体験予約 ¥500
+
+        </a>
+
+    </div>
+
+
+
+    <!-- JavaScript (動作制御) -->
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. スクロールアニメーション (フェードイン)
+
+            const observerOptions = {
+
+                root: null,
+
+                rootMargin: '0px',
+
+                threshold: 0.1
+
+            };
+
+
+
+            const observer = new IntersectionObserver((entries) => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add('fade-in-visible');
+
+                    }
+
+                });
+
+            }, observerOptions);
+
+
+
+            document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+
+
+            // 2. CSSアニメーション (ドロップライン用)
+
+            const styleSheet = document.createElement("style");
+
+            styleSheet.innerText = `
+
+                @keyframes drop {
+
+                    0% { transform: translateY(-100%); }
+
+                    100% { transform: translateY(100%); }
+
+                }
+
+            `;
+
+            document.head.appendChild(styleSheet);
+
+
+
+            // 3. モバイルメニュー開閉
+
+            const menuBtn = document.getElementById('menu-btn');
+
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+
+
+            function toggleMenu() {
+
+                mobileMenu.classList.toggle('hidden');
+
+            }
+
+
+
+            if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
+
+            if(closeMenuBtn) closeMenuBtn.addEventListener('click', toggleMenu);
+
+            
+
+            // リンククリック時にメニューを閉じる
+
+            mobileLinks.forEach(link => {
+
+                link.addEventListener('click', toggleMenu);
+
+            });
+
+
+
+            // 4. アコーディオン制御 (スケジュール詳細)
+
+            const triggers = document.querySelectorAll('.accordion-trigger');
+
+            
+
+            triggers.forEach(trigger => {
+
+                trigger.addEventListener('click', () => {
+
+                    const targetId = trigger.getAttribute('data-target');
+
+                    const content = document.getElementById(targetId);
+
+                    const icon = trigger.querySelector('.accordion-icon');
+
+                    
+
+                    // 現在の状態を確認
+
+                    const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+
+
+                    // 全て閉じる (アコーディオン動作)
+
+                    document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = '0px');
+
+                    document.querySelectorAll('.accordion-icon').forEach(i => i.style.transform = 'rotate(0deg)');
+
+
+
+                    // クリックした要素を開く (閉じていた場合)
+
+                    if (!isOpen) {
+
+                        content.style.maxHeight = content.scrollHeight + 'px';
+
+                        icon.style.transform = 'rotate(45deg)';
+
+                    }
+
+                });
+
+            });
+
+
+
+            // 初期ロード時に大正校を開く演出 (オプション)
+
+            setTimeout(() => {
+
+                const firstTrigger = document.querySelector('.accordion-trigger');
+
+                if(firstTrigger) firstTrigger.click();
+
+            }, 800);
+
+        });
+
+    </script>
+
+</body>
+
+</html>
